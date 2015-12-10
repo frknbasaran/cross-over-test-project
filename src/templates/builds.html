@@ -1,0 +1,100 @@
+<table class="table">
+    <thead>
+        <tr class="gray header-row">
+            <th style="width:15%">Changelist</th>
+            <th style="width:10%">Owner</th>
+            <th style="width:15%">Time Started</th>
+            <th style="width:40%"><span class="pull-left first">Build</span> <span class="pull-left second">Unit Test</span> <span class="pull-right last">Functional Test</span></th>
+            <th style="width:15%">Status</th>
+        </tr>
+    </thead>
+    <tbody ng-repeat="build in builds">
+        <tr ng-click="toggleDetail(build)" ng-class="{'gray content-row {{build.status}}-up':build.active, '{{build.status}} content-row':!build.active}">
+            <td class="row-inside">{{build.changelist}}</td>
+
+            <td class="row-inside">{{build.owner}}</td>
+
+            <td class="row-inside">{{build.dateStarted}} &nbsp; <i class="fa fa-clock-o"></i> &nbsp; {{build.timeStarted}}</td>
+            <td class="row-inside schema">
+                <ol class="list-inline text-center step-indicator">
+                    <li ng-class="{'complete':build.build == 'success', 'active':build.build == 'pending', 'empty':build.build == 'empty', 'incomplete':build.build == 'failed', 'mavi':build.build == 'running'}">
+                        <div class="step"><span ng-class="{'fa fa-spinner':build.build == 'pending', 'fa fa-refresh': build.build == 'running', 'fa fa-check-circle-o':build.build == 'success','fa fa-times-circle-o':build.build == 'failed'}"></span></div>
+                    </li>
+                    <li ng-class="{'complete':build.build == 'success', 'empty':build.build == 'empty'}">
+                        <div class="step"><span ng-class="{'fa fa-check-circle-o':build.build == 'success','fa ':build.build != 'success'}"></span></div>
+                    </li>
+                    <li ng-class="{'complete':build.build == 'success', 'empty':build.build == 'empty'}">
+                        <div class="step"><span ng-class="{'fa fa-check-circle-o':build.build == 'success','fa ':build.build != 'success'}"></span></div>
+                    </li>
+                </ol>
+            </td>
+            <td ng-if="!build.active" class="row-inside">
+                <span ng-class="{'pending-span':build.statusCode == 0,'running-span':build.statusCode == 1, 'passed-span':build.statusCode == 2, 'failed-span':build.statusCode == 3}">
+                    <i ng-if="build.statusCode == 0" class="fa fa-spinner"></i>
+                    <i ng-if="build.statusCode == 1" class="fa fa-refresh"></i>
+                    <i ng-if="build.statusCode == 2" class="fa fa-check-circle-o"></i>
+                    <i ng-if="build.statusCode == 3" class="fa fa-times-circle-o"></i>
+                    <strong class="buildStatus">{{build.status}}</strong>
+                </span>
+            </td>
+            <td ng-if="build.active" class="result">
+                <span ng-class="{'complete':build.build == 'success', 'active':build.build == 'pending', 'empty':build.build == 'empty', 'incomplete':build.build == 'failed', 'mavi':build.build == 'running'}" id="resultText">
+                    <strong>
+                        <i ng-if="build.statusCode == 0" class="fa fa-spinner"></i>
+                        <i ng-if="build.statusCode == 1" class="fa fa-refresh"></i>
+                        <i ng-if="build.statusCode == 2" class="fa fa-check-circle-o"></i>
+                        <i ng-if="build.statusCode == 3" class="fa fa-times-circle-o"></i>
+                        Build <br> <span class="buildStatus">{{build.status}}</span>
+                    </strong>
+                </span>
+            </td>
+        </tr>
+        <tr ng-if="build.active" class="gray detail-inside">
+            <td class="row-inside">
+                <strong>Build</strong>
+                <i ng-if="build.statusCode == 0" class="fa fa-spinner"></i>
+                <i ng-if="build.statusCode == 1" class="fa fa-refresh"></i>
+                <i ng-if="build.statusCode == 2" class="fa fa-check-circle-o"></i>
+                <i ng-if="build.statusCode == 3" class="fa fa-times-circle-o"></i>
+                <br>
+                <i class="fa fa-clock-o"></i> {{build.timeStarted}}
+            </td>
+            <td class="row-inside">
+                <span class="pull-left">
+                    <i class="fa fa-folder-o fa-3"></i>
+                    <br>
+                    <a href="">debug</a>
+                </span>
+                <span class="pull-right">
+                    <i class="fa fa-folder-o fa-3"></i>
+                    <br>
+                    <a href=""><i class="fa fa-download"></i> get logs</a>
+                </span>
+            </td>
+            <td class="row-inside">
+                <span  class="away-left pull-left"><i class="fa fa-chevron-right fa-4"></i></span>
+            </td>
+            <td class="row-inside">
+                <span class="pull-left">
+                    <strong>Unit Tests</strong> <i ng-if="build.statusCode == 0" class="fa fa-spinner"></i>
+                    <i ng-if="build.statusCode == 1" class="fa fa-refresh"></i>
+                    <i ng-if="build.statusCode == 2" class="fa fa-check-circle-o"></i>
+                    <i ng-if="build.statusCode == 3" class="fa fa-times-circle-o"></i>
+                    <br>
+                    <strong>%0 Status:</strong> {{build.status}}
+                </span>
+                <span  class="away-left pull-left"><i class="fa fa-chevron-right fa-4"></i></span>
+                <span class="away-right pull-right">
+                    <strong>Functional Tests</strong> <i ng-if="build.statusCode == 0" class="fa fa-spinner"></i>
+                    <i ng-if="build.statusCode == 1" class="fa fa-refresh"></i>
+                    <i ng-if="build.statusCode == 2" class="fa fa-check-circle-o"></i>
+                    <i ng-if="build.statusCode == 3" class="fa fa-times-circle-o"></i>
+                    <br>
+                    <strong>%0 Status:</strong> {{build.status}}
+                </span>
+            </td>
+            <td class="result"></td>
+        </tr>
+
+    </tbody>
+</table>

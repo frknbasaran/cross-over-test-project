@@ -1,0 +1,1 @@
+angular.module('cross', ['ui.bootstrap', 'ui.router', 'chart.js']);
